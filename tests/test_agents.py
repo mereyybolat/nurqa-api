@@ -1,27 +1,23 @@
-from fastapi.testclient import TestClient
-from app.main import app
-from fastapi import status
 import pytest
+from fastapi import status
 
 
-client = TestClient(app) #создаем тестовый клиент, он имитирует HTTP requests к API
-
-def test_root():
+def test_root(client):
     response = client.get("/") # отправляем GET request на root endpoint
     assert response.status_code == status.HTTP_200_OK
 
-def test_quality_gate():
+def test_quality_gate(client):
     response = client.post("/agents/agent-001/gate") #post request
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["agent_id"] == "agent-001" #cheking json response body
 
-def test_quality_gate_wrong_method():
+def test_quality_gate_wrong_method(client):
     #endpoint support only POST, doing reverse with GET
     response = client.get("/agents/agent-001/gate")
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
-def test_quality_gate_empty_id():
+def test_quality_gate_empty_id(client):
     #empty path parameter
     response = client.post("/agents//gate")
     assert response.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_307_TEMPORARY_REDIRECT, status.HTTP_422_UNPROCESSABLE_CONTENT) # Bad Request(400) for negative, Redirect, Unprocessable Entity, зависит от фастапи маршрута
@@ -35,18 +31,18 @@ def test_quality_gate_empty_id():
     ("/agents/agent-id-with-💩/gate", status.HTTP_200_OK),  # эмодзи в ID
     ("/agents/../../../etc/passwd/gate", status.HTTP_404_NOT_FOUND),  # попытка взлома
 ])
-def test_quality_gate_invalid_paths(bad_path, expected_status):
+def test_quality_gate_invalid_paths(client, bad_path, expected_status):
     response = client.post(bad_path) #using path from Parametrized test
     assert response.status_code == expected_status
 
-def test_root_post_not_allowed():
+def test_root_post_not_allowed(client):
 
     #root endpoint allows GET only
     response = client.post("/") #POST should fail at the end
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 # checking response body
-def test_quality_gate_reponse_fields():
+def test_quality_gate_reponse_fields(client):
     
     response = client.post("/agents/agent-001/gate")
     data = response.json() #saving json response to "data"
@@ -64,7 +60,7 @@ def test_quality_gate_reponse_fields():
     assert isinstance(data["ethics_checked"], bool)
 
 # checking exact response: API AUTOMATION
-def test_quality_gate_exact_response():
+def test_quality_gate_exact_response(client):
     response = client.post("/agents/agent-001/gate")
 
     expected_response = {
@@ -75,6 +71,7 @@ def test_quality_gate_exact_response():
     }
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
+
 
 
 
