@@ -72,6 +72,8 @@ def test_quality_gate_exact_response(client):
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
 
+# Focusing on SECURITY
+
 
 
 
