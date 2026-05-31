@@ -1,2 +1,2 @@
-# nurqa-api
-AI Quality Assurance infrastructure for agent releases
+# veriqa-api
+VeriQA: AI Quality Assurance infrastructure for agent releases
