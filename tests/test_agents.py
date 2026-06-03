@@ -78,15 +78,12 @@ def test_quality_gate_exact_response(client):
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
 
-# Focusing on SECURITY later
-'''  '''
+
 
 # Testing prompt registry
 def test_prompt_registry_storage(client):
     response = client.post("/agents/agent-001/gate", json=VALID_GATE_PAYLOAD)
     assert response.status_code == status.HTTP_200_OK
-
-    # Проверяем, что API вернуло нам ту же версию, что мы отправили
     assert response.json()["prompt_version"] == "v1.0.0"
 
 
