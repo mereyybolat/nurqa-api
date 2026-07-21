@@ -1,6 +1,6 @@
 VeriQA # QA Infrastructure for AI Validation & Quality Assurance
 
-NurQA is a specialized testing framework and evaluation engine for AI-driven software, autonomous agents, and LLM applications.
+VeriQA is a specialized testing framework and evaluation engine for AI-driven software, autonomous agents, and LLM applications.
 
 ### Core Architecture & Capabilities:
 - 🧪 **Deterministic Scenarios for Stochastic AI**: Runs repeated execution pipelines (N-runs) to evaluate consistency, semantic similarity, and response variance.
