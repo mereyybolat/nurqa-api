@@ -9,7 +9,7 @@ VALID_GATE_PAYLOAD = {
 }
 
 def test_root(client):
-    response = client.get("/") # отправляем GET request на root endpoint
+    response = client.get("/") # senfing GET request to root endpoint
     assert response.status_code == status.HTTP_200_OK
 
 def test_quality_gate(client):
