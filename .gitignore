@@ -2,3 +2,9 @@ data/
 models/
 *.pkl
 *.csv
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
